@@ -3,6 +3,7 @@ package com.bemal.prescription_app.Entity;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "prescription")
@@ -74,11 +75,14 @@ public class Prescription {
     @Column(name = "is_note_included")
     private boolean isNoteIncluded;
 
+    @OneToMany(mappedBy = "prescription", cascade = CascadeType.ALL)
+    private List<Drug> drugs;
+
 
     public Prescription() {
     }
 
-    public Prescription(Long id, User user, Date createdAt, String patientName, Date dateOfBirth, int age, Gender gender, Long mobileNumber, String address, Double height, HeightUnit heightUnit, Double weight, WeightUnit weightUnit, String diagnosis, String patientComplains, String clinicalFeatures, String examination, String advice, String notes, boolean isNoteIncluded) {
+    public Prescription(Long id, User user, Date createdAt, String patientName, Date dateOfBirth, int age, Gender gender, Long mobileNumber, String address, Double height, HeightUnit heightUnit, Double weight, WeightUnit weightUnit, String diagnosis, String patientComplains, String clinicalFeatures, String examination, String advice, String notes, boolean isNoteIncluded, List<Drug> drugs) {
         this.id = id;
         this.user = user;
         this.createdAt = createdAt;
@@ -99,6 +103,7 @@ public class Prescription {
         this.advice = advice;
         this.notes = notes;
         this.isNoteIncluded = isNoteIncluded;
+        this.drugs = drugs;
     }
 
     public Long getId() {
@@ -259,6 +264,14 @@ public class Prescription {
 
     public void setNoteIncluded(boolean noteIncluded) {
         isNoteIncluded = noteIncluded;
+    }
+
+    public List<Drug> getDrugs() {
+        return drugs;
+    }
+
+    public void setDrugs(List<Drug> drugs) {
+        this.drugs = drugs;
     }
 
     @Override
