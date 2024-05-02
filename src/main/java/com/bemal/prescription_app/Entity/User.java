@@ -2,6 +2,8 @@ package com.bemal.prescription_app.Entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "user")
 public class User {
@@ -37,10 +39,13 @@ public class User {
     @Column(name = "other_details", columnDefinition = "TEXT")
     private String otherDetails;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Prescription> prescriptions;
+
     public User() {
     }
 
-    public User(Long id, Long phoneNumber, String email, String password, String name, String qualification, String address, String registrationNumber, String instituteName, String otherDetails) {
+    public User(Long id, Long phoneNumber, String email, String password, String name, String qualification, String address, String registrationNumber, String instituteName, String otherDetails, List<Prescription> prescriptions) {
         this.id = id;
         this.phoneNumber = phoneNumber;
         this.email = email;
@@ -51,6 +56,7 @@ public class User {
         this.registrationNumber = registrationNumber;
         this.instituteName = instituteName;
         this.otherDetails = otherDetails;
+        this.prescriptions = prescriptions;
     }
 
     public Long getId() {
@@ -131,6 +137,14 @@ public class User {
 
     public void setOtherDetails(String otherDetails) {
         this.otherDetails = otherDetails;
+    }
+
+    public List<Prescription> getPrescriptions() {
+        return prescriptions;
+    }
+
+    public void setPrescriptions(List<Prescription> prescriptions) {
+        this.prescriptions = prescriptions;
     }
 
     @Override
