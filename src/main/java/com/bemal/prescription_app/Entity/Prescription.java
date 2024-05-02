@@ -36,39 +36,39 @@ public class Prescription {
     @Column(name = "mobile_number")
     private Long mobileNumber;
 
-    @Column(name = "address", columnDefinition = "TEXT")
+    @Column(name = "address", columnDefinition = "TEXT", nullable = true)
     private String address;
 
     @Column(name = "height")
-    private double height;
+    private Double height;
 
     @ManyToOne
     @JoinColumn(name = "height_unit_id")
     private HeightUnit heightUnit;
 
     @Column(name = "weight")
-    private double weight;
+    private Double weight;
 
     @ManyToOne
     @JoinColumn(name = "weight_unit_id")
     private WeightUnit weightUnit;
 
-    @Column(name = "diagnosis", columnDefinition = "TEXT")
+    @Column(name = "diagnosis", columnDefinition = "TEXT", nullable = true)
     private String diagnosis;
 
-    @Column(name = "patient_complains", columnDefinition = "TEXT")
+    @Column(name = "patient_complains", columnDefinition = "TEXT", nullable = true)
     private String patientComplains;
 
-    @Column(name = "clinical_features", columnDefinition = "TEXT")
+    @Column(name = "clinical_features", columnDefinition = "TEXT", nullable = true)
     private String clinicalFeatures;
 
-    @Column(name = "examination", columnDefinition = "TEXT")
+    @Column(name = "examination", columnDefinition = "TEXT", nullable = true)
     private String examination;
 
-    @Column(name = "advice", columnDefinition = "TEXT")
+    @Column(name = "advice", columnDefinition = "TEXT", nullable = true)
     private String advice;
 
-    @Column(name = "notes", columnDefinition = "TEXT")
+    @Column(name = "notes", columnDefinition = "TEXT", nullable = true)
     private String notes;
 
     @Column(name = "is_note_included")
@@ -78,7 +78,7 @@ public class Prescription {
     public Prescription() {
     }
 
-    public Prescription(Long id, User user, Date createdAt, String patientName, Date dateOfBirth, int age, Gender gender, Long mobileNumber, String address, double height, HeightUnit heightUnit, double weight, WeightUnit weightUnit, String diagnosis, String patientComplains, String clinicalFeatures, String examination, String advice, String notes, boolean isNoteIncluded) {
+    public Prescription(Long id, User user, Date createdAt, String patientName, Date dateOfBirth, int age, Gender gender, Long mobileNumber, String address, Double height, HeightUnit heightUnit, Double weight, WeightUnit weightUnit, String diagnosis, String patientComplains, String clinicalFeatures, String examination, String advice, String notes, boolean isNoteIncluded) {
         this.id = id;
         this.user = user;
         this.createdAt = createdAt;
@@ -173,11 +173,11 @@ public class Prescription {
         this.address = address;
     }
 
-    public double getHeight() {
+    public Double getHeight() {
         return height;
     }
 
-    public void setHeight(double height) {
+    public void setHeight(Double height) {
         this.height = height;
     }
 
@@ -189,11 +189,11 @@ public class Prescription {
         this.heightUnit = heightUnit;
     }
 
-    public double getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 

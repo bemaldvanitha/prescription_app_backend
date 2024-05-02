@@ -12,10 +12,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", unique = true)
     private Long phoneNumber;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "password")
@@ -27,16 +27,16 @@ public class User {
     @Column(name = "qualification")
     private String qualification;
 
-    @Column(name = "address", columnDefinition = "TEXT")
+    @Column(name = "address", columnDefinition = "TEXT", nullable = true)
     private String address;
 
     @Column(name = "registration_number")
     private String registrationNumber;
 
-    @Column(name = "institute_name")
+    @Column(name = "institute_name", nullable = true)
     private String instituteName;
 
-    @Column(name = "other_details", columnDefinition = "TEXT")
+    @Column(name = "other_details", columnDefinition = "TEXT", nullable = true)
     private String otherDetails;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
