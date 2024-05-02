@@ -35,7 +35,7 @@ public class Prescription {
     private Gender gender;
 
     @Column(name = "mobile_number")
-    private Long mobileNumber;
+    private String mobileNumber;
 
     @Column(name = "address", columnDefinition = "TEXT", nullable = true)
     private String address;
@@ -82,7 +82,7 @@ public class Prescription {
     public Prescription() {
     }
 
-    public Prescription(Long id, User user, Date createdAt, String patientName, Date dateOfBirth, int age, Gender gender, Long mobileNumber, String address, Double height, HeightUnit heightUnit, Double weight, WeightUnit weightUnit, String diagnosis, String patientComplains, String clinicalFeatures, String examination, String advice, String notes, boolean isNoteIncluded, List<Drug> drugs) {
+    public Prescription(Long id, User user, Date createdAt, String patientName, Date dateOfBirth, int age, Gender gender, String mobileNumber, String address, Double height, HeightUnit heightUnit, Double weight, WeightUnit weightUnit, String diagnosis, String patientComplains, String clinicalFeatures, String examination, String advice, String notes, boolean isNoteIncluded, List<Drug> drugs) {
         this.id = id;
         this.user = user;
         this.createdAt = createdAt;
@@ -162,11 +162,11 @@ public class Prescription {
         this.gender = gender;
     }
 
-    public Long getMobileNumber() {
+    public String getMobileNumber() {
         return mobileNumber;
     }
 
-    public void setMobileNumber(Long mobileNumber) {
+    public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
     }
 
