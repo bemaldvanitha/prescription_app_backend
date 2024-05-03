@@ -1,9 +1,11 @@
 package com.bemal.prescription_app.Service;
 
+import com.bemal.prescription_app.Dto.*;
+
 public interface AuthenticationService {
-    void signup();
+    SignupResponse signup(SignupRequest signupRequest);
 
-    void login();
+    LoginResponse login(LoginRequest loginRequest);
 
-    void registration();
+    RegistrationResponse registration(RegisterRequest registerRequest, Long userId);
 }
