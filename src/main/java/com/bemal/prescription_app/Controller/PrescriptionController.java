@@ -43,6 +43,7 @@ public class PrescriptionController {
         return ResponseEntity.status(200).body(prescriptionService.searchPrescription(tokenValidationResult.getUserId(), searchTerm));
     }
 
+    @GetMapping("/filter")
     public ResponseEntity<List<PrescriptionResponse>> getPrescriptionBySortDate(@RequestParam(name = "createdAt") @DateTimeFormat(pattern = "yyyy-MM-dd") Date createdAt,
                                                                                 @RequestHeader(name = "Authorization") String token){
         JwtTokenProvider.TokenValidationResult tokenValidationResult = JwtTokenProvider.validateToken(token);
