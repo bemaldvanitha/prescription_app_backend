@@ -7,7 +7,7 @@ import java.util.List;
 public interface PrescriptionService {
     List<PrescriptionResponse> getAllPrescriptions(Long userId);
 
-    void searchPrescription();
+    List<PrescriptionResponse> searchPrescription(Long userId, String searchString);
 
     void filterPrescription();
 }

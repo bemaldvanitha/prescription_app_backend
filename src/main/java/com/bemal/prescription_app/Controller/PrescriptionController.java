@@ -6,6 +6,7 @@ import com.bemal.prescription_app.Service.PrescriptionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -30,4 +31,13 @@ public class PrescriptionController {
         return ResponseEntity.status(200).body(prescriptionService.getAllPrescriptions(tokenValidationResult.getUserId()));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<PrescriptionResponse>> getPrescriptionBySearchString(@RequestParam(name = "searchTerm") String searchTerm, @RequestHeader(name="Authorization") String token){
+        JwtTokenProvider.TokenValidationResult tokenValidationResult = JwtTokenProvider.validateToken(token);
+
+        if(!tokenValidationResult.isValid()){
+            return ResponseEntity.status(401).body(null);
+        }
+        return ResponseEntity.status(200).body(prescriptionService.searchPrescription(tokenValidationResult.getUserId(), searchTerm));
+    }
 }

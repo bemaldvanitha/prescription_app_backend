@@ -46,8 +46,21 @@ public class PrescriptionServiceImpl implements PrescriptionService{
     }
 
     @Override
-    public void searchPrescription() {
+    public List<PrescriptionResponse> searchPrescription(Long userId, String searchString) {
+        List<PrescriptionResponse> prescriptionList = new ArrayList<PrescriptionResponse>();
+        User user = userRepository.findById(userId).orElse(null);
+        if (user != null) {
+            QPrescription prescription = QPrescription.prescription;
+            List<Prescription> prescriptions = queryFactory.selectFrom(prescription).where(prescription.patientName.contains(searchString)
+                    .or(prescription.mobileNumber.contains(searchString))).fetch();
 
+            prescriptions.forEach(prescriptionItem -> {
+                PrescriptionResponse prescriptionResponse = new PrescriptionResponse(prescriptionItem.getId(), prescriptionItem.getCreatedAt(),
+                        prescriptionItem.getPatientName(), prescriptionItem.getMobileNumber(), prescriptionItem.getAge());
+                prescriptionList.add(prescriptionResponse);
+            });
+        }
+        return prescriptionList;
     }
 
     @Override
