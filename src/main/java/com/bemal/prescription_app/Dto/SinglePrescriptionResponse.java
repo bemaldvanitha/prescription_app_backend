@@ -1,90 +1,55 @@
-package com.bemal.prescription_app.Entity;
-
-import jakarta.persistence.*;
+package com.bemal.prescription_app.Dto;
 
 import java.util.Date;
 import java.util.List;
 
-@Entity
-@Table(name = "prescription")
-public class Prescription {
+public class SinglePrescriptionResponse {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @Column(name = "created_at")
-    @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
-    @Column(name = "patient_name")
     private String patientName;
 
-    @Column(name = "date_of_birth")
     private Date dateOfBirth;
 
-    @Column(name = "age")
     private int age;
 
-    @ManyToOne
-    @JoinColumn(name = "genderId")
-    private Gender gender;
+    private String gender;
 
-    @Column(name = "mobile_number")
     private String mobileNumber;
 
-    @Column(name = "address", columnDefinition = "TEXT", nullable = true)
     private String address;
 
-    @Column(name = "height")
     private Double height;
 
-    @ManyToOne
-    @JoinColumn(name = "height_unit_id")
-    private HeightUnit heightUnit;
+    private String heightUnit;
 
-    @Column(name = "weight")
     private Double weight;
 
-    @ManyToOne
-    @JoinColumn(name = "weight_unit_id")
-    private WeightUnit weightUnit;
+    private String weightUnit;
 
-    @Column(name = "diagnosis", columnDefinition = "TEXT", nullable = true)
     private String diagnosis;
 
-    @Column(name = "patient_complains", columnDefinition = "TEXT", nullable = true)
     private String patientComplains;
 
-    @Column(name = "clinical_features", columnDefinition = "TEXT", nullable = true)
     private String clinicalFeatures;
 
-    @Column(name = "examination", columnDefinition = "TEXT", nullable = true)
     private String examination;
 
-    @Column(name = "advice", columnDefinition = "TEXT", nullable = true)
     private String advice;
 
-    @Column(name = "notes", columnDefinition = "TEXT", nullable = true)
     private String notes;
 
-    @Column(name = "is_note_included")
     private boolean isNoteIncluded;
 
-    @OneToMany(mappedBy = "prescription", cascade = CascadeType.ALL)
-    private List<Drug> drugs;
+    private List<SingleDrugResponse> drugs;
 
-
-    public Prescription() {
+    public SinglePrescriptionResponse() {
     }
 
-    public Prescription(Long id, User user, Date createdAt, String patientName, Date dateOfBirth, int age, Gender gender, String mobileNumber, String address, Double height, HeightUnit heightUnit, Double weight, WeightUnit weightUnit, String diagnosis, String patientComplains, String clinicalFeatures, String examination, String advice, String notes, boolean isNoteIncluded, List<Drug> drugs) {
+    public SinglePrescriptionResponse(Long id, Date createdAt, String patientName, Date dateOfBirth, int age, String gender, String mobileNumber, String address, Double height, String heightUnit, Double weight, String weightUnit, String diagnosis, String patientComplains, String clinicalFeatures, String examination, String advice, String notes, boolean isNoteIncluded, List<SingleDrugResponse> drugs) {
         this.id = id;
-        this.user = user;
         this.createdAt = createdAt;
         this.patientName = patientName;
         this.dateOfBirth = dateOfBirth;
@@ -106,20 +71,13 @@ public class Prescription {
         this.drugs = drugs;
     }
 
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public Date getCreatedAt() {
@@ -154,11 +112,11 @@ public class Prescription {
         this.age = age;
     }
 
-    public Gender getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -186,11 +144,11 @@ public class Prescription {
         this.height = height;
     }
 
-    public HeightUnit getHeightUnit() {
+    public String getHeightUnit() {
         return heightUnit;
     }
 
-    public void setHeightUnit(HeightUnit heightUnit) {
+    public void setHeightUnit(String heightUnit) {
         this.heightUnit = heightUnit;
     }
 
@@ -202,11 +160,11 @@ public class Prescription {
         this.weight = weight;
     }
 
-    public WeightUnit getWeightUnit() {
+    public String getWeightUnit() {
         return weightUnit;
     }
 
-    public void setWeightUnit(WeightUnit weightUnit) {
+    public void setWeightUnit(String weightUnit) {
         this.weightUnit = weightUnit;
     }
 
@@ -258,7 +216,7 @@ public class Prescription {
         this.notes = notes;
     }
 
-    public boolean getIsNoteIncluded() {
+    public boolean isNoteIncluded() {
         return isNoteIncluded;
     }
 
@@ -266,37 +224,11 @@ public class Prescription {
         isNoteIncluded = noteIncluded;
     }
 
-    public List<Drug> getDrugs() {
+    public List<SingleDrugResponse> getDrugs() {
         return drugs;
     }
 
-    public void setDrugs(List<Drug> drugs) {
+    public void setDrugs(List<SingleDrugResponse> drugs) {
         this.drugs = drugs;
-    }
-
-    @Override
-    public String toString() {
-        return "Prescription{" +
-                "id=" + id +
-                ", user=" + user +
-                ", createdAt=" + createdAt +
-                ", patientName='" + patientName + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
-                ", age=" + age +
-                ", gender=" + gender +
-                ", mobileNumber=" + mobileNumber +
-                ", address='" + address + '\'' +
-                ", height=" + height +
-                ", heightUnit=" + heightUnit +
-                ", weight=" + weight +
-                ", weightUnit=" + weightUnit +
-                ", diagnosis='" + diagnosis + '\'' +
-                ", patientComplains='" + patientComplains + '\'' +
-                ", clinicalFeatures='" + clinicalFeatures + '\'' +
-                ", examination='" + examination + '\'' +
-                ", advice='" + advice + '\'' +
-                ", notes='" + notes + '\'' +
-                ", isNoteIncluded=" + isNoteIncluded +
-                '}';
     }
 }
