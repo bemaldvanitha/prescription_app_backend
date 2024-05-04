@@ -1,6 +1,8 @@
 package com.bemal.prescription_app.Controller;
 
 import com.bemal.prescription_app.Dto.PrescriptionResponse;
+import com.bemal.prescription_app.Dto.SavePrescriptionResponse;
+import com.bemal.prescription_app.Dto.SinglePrescriptionRequest;
 import com.bemal.prescription_app.Dto.SinglePrescriptionResponse;
 import com.bemal.prescription_app.Helper.JwtTokenProvider;
 import com.bemal.prescription_app.Service.PrescriptionService;
@@ -62,5 +64,18 @@ public class PrescriptionController {
             return ResponseEntity.status(401).body(null);
         }
         return ResponseEntity.status(200).body(prescriptionService.getSinglePrescription(id));
+    }
+
+    @PostMapping("/")
+    public ResponseEntity<SavePrescriptionResponse> createPrescription(@RequestHeader(name = "Authorization") String token,
+                                             @RequestBody SinglePrescriptionRequest prescriptionRequest){
+        JwtTokenProvider.TokenValidationResult tokenValidationResult = JwtTokenProvider.validateToken(token);
+
+        if(!tokenValidationResult.isValid()){
+            return ResponseEntity.status(401).body(null);
+        }
+
+        prescriptionService.addPrescription(prescriptionRequest, tokenValidationResult.getUserId());
+        return ResponseEntity.status(200).body(new SavePrescriptionResponse("Prescription saved successfully"));
     }
 }

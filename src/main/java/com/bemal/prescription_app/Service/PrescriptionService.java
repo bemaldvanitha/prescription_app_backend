@@ -1,6 +1,7 @@
 package com.bemal.prescription_app.Service;
 
 import com.bemal.prescription_app.Dto.PrescriptionResponse;
+import com.bemal.prescription_app.Dto.SinglePrescriptionRequest;
 import com.bemal.prescription_app.Dto.SinglePrescriptionResponse;
 
 import java.util.Date;
@@ -14,4 +15,6 @@ public interface PrescriptionService {
     List<PrescriptionResponse> filterPrescription(Long userId, Date createdAt);
 
     SinglePrescriptionResponse getSinglePrescription(Long prescriptionId);
+
+    void addPrescription(SinglePrescriptionRequest singlePrescriptionRequest, Long userId);
 }
