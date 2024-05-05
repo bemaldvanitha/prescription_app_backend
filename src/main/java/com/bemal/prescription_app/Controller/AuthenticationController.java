@@ -6,7 +6,9 @@ import com.bemal.prescription_app.Service.AuthenticationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/auth")
+@RestController
+@RequestMapping("/api/auth")
+@CrossOrigin(origins = "*")
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;

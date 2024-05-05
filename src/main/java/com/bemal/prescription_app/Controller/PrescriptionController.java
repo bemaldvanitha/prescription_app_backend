@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 
-@RestController("/prescription")
+@RestController
+@RequestMapping("/prescription")
+@CrossOrigin(origins = "*")
 public class PrescriptionController {
 
     private final PrescriptionService prescriptionService;
