@@ -16,13 +16,15 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public SignupResponse signup(@RequestBody SignupRequest signupRequest) {
-        return authenticationService.signup(signupRequest);
+    public ResponseEntity<SignupResponse> signup(@RequestBody SignupRequest signupRequest) {
+        SignupResponse signupResponse = authenticationService.signup(signupRequest);
+        return ResponseEntity.status(signupResponse.getStatusCode()).body(signupResponse);
     }
 
     @PostMapping("/login")
-    public LoginResponse login(@RequestBody LoginRequest loginRequest){
-        return authenticationService.login(loginRequest);
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest){
+        LoginResponse loginResponse = authenticationService.login(loginRequest);
+        return ResponseEntity.status(loginResponse.getStatusCode()).body(loginResponse);
     }
 
     @PatchMapping("/register")

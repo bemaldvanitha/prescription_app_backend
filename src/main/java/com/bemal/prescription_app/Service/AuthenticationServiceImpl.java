@@ -21,6 +21,19 @@ public class AuthenticationServiceImpl implements AuthenticationService{
     public SignupResponse signup(SignupRequest signupRequest) {
         User user = new User();
 
+        User isPhoneNumberUsedBefore = userRepository.findOne(QUser.user.phoneNumber.eq(signupRequest.getPhoneNumber()))
+                .orElse(null);
+
+        User isEmailUsedBefore = userRepository.findOne(QUser.user.email.eq(signupRequest.getEmail())).orElse(null);
+
+        if(isEmailUsedBefore != null){
+            return new SignupResponse(null, "That Email is already taken", 404);
+        }
+
+        if(isPhoneNumberUsedBefore != null && isPhoneNumberUsedBefore.getId().equals(user.getId())){
+            return new SignupResponse(null, "That Mobile number is already taken", 404);
+        }
+
         user.setEmail(signupRequest.getEmail());
         user.setPhoneNumber(signupRequest.getPhoneNumber());
         user.setPassword(MD5PasswordEncoder.encrypt(signupRequest.getPassword()));
@@ -36,13 +49,13 @@ public class AuthenticationServiceImpl implements AuthenticationService{
         User user = userRepository.findOne(QUser.user.phoneNumber.eq(loginRequest.getMobileNumber())).orElse(null);
 
         if(user == null){
-            return new LoginResponse(null,"Authentication error", 404);
+            return new LoginResponse(null,"Authentication error", 401);
         }
 
         String encodedPassword = MD5PasswordEncoder.encrypt(loginRequest.getPassword());
 
         if(!encodedPassword.equals(user.getPassword())){
-            return new LoginResponse(null,"Authentication error", 404);
+            return new LoginResponse(null,"Authentication error", 401);
         }else {
             String jwtToken = JwtTokenProvider.generateToken(user.getPhoneNumber(), user.getId());
             return new LoginResponse(jwtToken,"User Login successful", 200);
