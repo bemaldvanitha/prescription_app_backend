@@ -90,25 +90,40 @@ public class AuthenticationServiceImpl implements AuthenticationService{
             return new UpdateProfileResponse("Update Profile Failed", 404);
         }
 
-        User isPhoneNumberUsedBefore = userRepository.findOne(QUser.user.phoneNumber.eq(updateProfileRequest.getPhoneNumber()))
-                .orElse(null);
+        if(updateProfileRequest.getEmail() != null){
+            User isEmailUsedBefore = userRepository.findOne(QUser.user.email.eq(updateProfileRequest.getEmail())).orElse(null);
 
-        User isEmailUsedBefore = userRepository.findOne(QUser.user.email.eq(updateProfileRequest.getEmail())).orElse(null);
+            if(isEmailUsedBefore != null && !isEmailUsedBefore.getId().equals(user.getId())){
+                return new UpdateProfileResponse("That Email is already taken", 404);
+            }
 
-        if(isEmailUsedBefore != null && !isEmailUsedBefore.getId().equals(user.getId())){
-            return new UpdateProfileResponse("That Email is already taken", 404);
+            user.setEmail(updateProfileRequest.getEmail());
         }
 
-        if(isPhoneNumberUsedBefore != null && !isPhoneNumberUsedBefore.getId().equals(user.getId())){
-            return new UpdateProfileResponse("That Mobile number is already taken", 404);
+        if(updateProfileRequest.getPhoneNumber() != null){
+            User isPhoneNumberUsedBefore = userRepository.findOne(QUser.user.phoneNumber.eq(updateProfileRequest.getPhoneNumber()))
+                    .orElse(null);
+
+            if(isPhoneNumberUsedBefore != null && !isPhoneNumberUsedBefore.getId().equals(user.getId())){
+                return new UpdateProfileResponse("That Mobile number is already taken", 404);
+            }
+
+            user.setPhoneNumber(updateProfileRequest.getPhoneNumber());
         }
 
-        user.setEmail(updateProfileRequest.getEmail());
-        user.setPhoneNumber(updateProfileRequest.getPhoneNumber());
-        user.setQualification(updateProfileRequest.getQualifications());
-        user.setAddress(updateProfileRequest.getAddress());
-        user.setInstituteName(updateProfileRequest.getInstituteName());
-        user.setOtherDetails(updateProfileRequest.getOtherDetails());
+        if(updateProfileRequest.getQualifications() != null){
+            user.setQualification(updateProfileRequest.getQualifications());
+            user.setAddress(updateProfileRequest.getAddress());
+        }
+
+        if(updateProfileRequest.getInstituteName() != null){
+            user.setInstituteName(updateProfileRequest.getInstituteName());
+        }
+
+        if(updateProfileRequest.getOtherDetails() != null){
+            user.setOtherDetails(updateProfileRequest.getOtherDetails());
+        }
+
         userRepository.save(user);
 
         return new UpdateProfileResponse("User updated successfully", 200);
