@@ -68,4 +68,36 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 
         return new RegistrationResponse("Registration successful", 200);
     }
+
+    @Override
+    public UpdateProfileResponse updateProfile(UpdateProfileRequest updateProfileRequest, Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+
+        if(user == null){
+            return new UpdateProfileResponse("Update Profile Failed", 404);
+        }
+
+        User isPhoneNumberUsedBefore = userRepository.findOne(QUser.user.phoneNumber.eq(updateProfileRequest.getPhoneNumber()))
+                .orElse(null);
+
+        User isEmailUsedBefore = userRepository.findOne(QUser.user.email.eq(updateProfileRequest.getEmail())).orElse(null);
+
+        if(isEmailUsedBefore != null && isEmailUsedBefore.getId().equals(user.getId())){
+            return new UpdateProfileResponse("That Email is already taken", 404);
+        }
+
+        if(isPhoneNumberUsedBefore != null && isPhoneNumberUsedBefore.getId().equals(user.getId())){
+            return new UpdateProfileResponse("That Mobile number is already taken", 404);
+        }
+
+        user.setEmail(updateProfileRequest.getEmail());
+        user.setPhoneNumber(updateProfileRequest.getPhoneNumber());
+        user.setQualification(updateProfileRequest.getQualifications());
+        user.setAddress(updateProfileRequest.getAddress());
+        user.setInstituteName(updateProfileRequest.getInstituteName());
+        user.setOtherDetails(updateProfileRequest.getOtherDetails());
+        userRepository.save(user);
+
+        return new UpdateProfileResponse("User updated successfully", 200);
+    }
 }

@@ -8,4 +8,6 @@ public interface AuthenticationService {
     LoginResponse login(LoginRequest loginRequest);
 
     RegistrationResponse registration(RegisterRequest registerRequest, Long userId);
+
+    UpdateProfileResponse updateProfile(UpdateProfileRequest updateProfileRequest, Long userId);
 }
