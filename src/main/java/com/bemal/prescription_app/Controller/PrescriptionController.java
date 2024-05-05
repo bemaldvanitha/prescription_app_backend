@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/prescription")
+@RequestMapping("/api/prescription")
 @CrossOrigin(origins = "*")
 public class PrescriptionController {
 
