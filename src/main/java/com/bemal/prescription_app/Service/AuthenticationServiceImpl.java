@@ -95,11 +95,11 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 
         User isEmailUsedBefore = userRepository.findOne(QUser.user.email.eq(updateProfileRequest.getEmail())).orElse(null);
 
-        if(isEmailUsedBefore != null && isEmailUsedBefore.getId().equals(user.getId())){
+        if(isEmailUsedBefore != null && !isEmailUsedBefore.getId().equals(user.getId())){
             return new UpdateProfileResponse("That Email is already taken", 404);
         }
 
-        if(isPhoneNumberUsedBefore != null && isPhoneNumberUsedBefore.getId().equals(user.getId())){
+        if(isPhoneNumberUsedBefore != null && !isPhoneNumberUsedBefore.getId().equals(user.getId())){
             return new UpdateProfileResponse("That Mobile number is already taken", 404);
         }
 

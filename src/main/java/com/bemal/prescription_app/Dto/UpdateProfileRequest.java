@@ -2,8 +2,6 @@ package com.bemal.prescription_app.Dto;
 
 public class UpdateProfileRequest {
 
-    private Long id;
-
     private String phoneNumber;
 
     private String email;
@@ -19,22 +17,13 @@ public class UpdateProfileRequest {
     public UpdateProfileRequest() {
     }
 
-    public UpdateProfileRequest(Long id, String phoneNumber, String email, String qualifications, String address, String instituteName, String otherDetails) {
-        this.id = id;
+    public UpdateProfileRequest(String phoneNumber, String email, String qualifications, String address, String instituteName, String otherDetails) {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.qualifications = qualifications;
         this.address = address;
         this.instituteName = instituteName;
         this.otherDetails = otherDetails;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getPhoneNumber() {
