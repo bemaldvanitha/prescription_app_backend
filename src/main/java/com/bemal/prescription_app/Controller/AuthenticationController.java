@@ -26,14 +26,18 @@ public class AuthenticationController {
     }
 
     @PatchMapping("/register")
-    public RegistrationResponse register(@RequestBody RegisterRequest registerRequest, @RequestHeader (name="Authorization") String token){
+    public ResponseEntity<RegistrationResponse> register(@RequestBody RegisterRequest registerRequest,
+                                                         @RequestHeader (name="Authorization") String token){
         JwtTokenProvider.TokenValidationResult tokenValidationResult = JwtTokenProvider.validateToken(token);
 
         if(!tokenValidationResult.isValid()){
-            return new RegistrationResponse(tokenValidationResult.getMessage(), 401);
+            return ResponseEntity.status(401).body(null);
         }
 
-        return authenticationService.registration(registerRequest, tokenValidationResult.getUserId());
+        RegistrationResponse registrationResponse = authenticationService.registration(registerRequest,
+                tokenValidationResult.getUserId());
+
+        return ResponseEntity.status(registrationResponse.getStatusCode()).body(registrationResponse);
     }
 
     @PatchMapping("/update")
