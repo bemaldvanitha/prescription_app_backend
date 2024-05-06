@@ -11,10 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class PrescriptionServiceImpl implements PrescriptionService{
@@ -88,7 +85,7 @@ public class PrescriptionServiceImpl implements PrescriptionService{
         if (user != null) {
             QPrescription prescription = QPrescription.prescription;
             List<Prescription> prescriptions = queryFactory.selectFrom(prescription).where(prescription.patientName.contains(searchString)
-                    .or(prescription.mobileNumber.contains(searchString))).fetch();
+                    .or(prescription.mobileNumber.contains(searchString)).and(prescription.user.eq(user))).fetch();
 
             prescriptions.forEach(prescriptionItem -> {
                 PrescriptionResponse prescriptionResponse = new PrescriptionResponse(prescriptionItem.getId(), prescriptionItem.getCreatedAt(),
@@ -103,9 +100,15 @@ public class PrescriptionServiceImpl implements PrescriptionService{
     public List<PrescriptionResponse> filterPrescription(Long userId, Date createdAt) {
         List<PrescriptionResponse> prescriptionList = new ArrayList<PrescriptionResponse>();
         User user = userRepository.findById(userId).orElse(null);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(createdAt);
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+
         if (user != null) {
             QPrescription prescription = QPrescription.prescription;
-            List<Prescription> prescriptions = queryFactory.selectFrom(prescription).where(prescription.createdAt.eq(createdAt)).fetch();
+            List<Prescription> prescriptions = queryFactory.selectFrom(prescription).where(prescription.createdAt.between(createdAt, calendar.getTime())
+                    .and(prescription.user.eq(user))).fetch();
 
             prescriptions.forEach(prescriptionItem -> {
                 PrescriptionResponse prescriptionResponse = new PrescriptionResponse(prescriptionItem.getId(), prescriptionItem.getCreatedAt(),
