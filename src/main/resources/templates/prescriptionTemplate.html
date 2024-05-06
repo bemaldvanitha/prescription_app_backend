@@ -7,9 +7,137 @@
     <body>
         <h1>Prescription Details</h1>
         <div th:if="${user != null}">
-            <div>
-                <p></p>
+            <div th:if="${user.getName() != null}">
+                <p>Doctor Name: </p>
+                <p th:text="${user.getName()}"></p>
+            </div>
+            <div th:if="${user.getInstituteName() != null}">
+                <p>Institute Name: </p>
+                <p th:text="${user.getInstituteName()}"></p>
+            </div>
+            <div th:if="${user.getRegistrationNumber() != null}">
+                <p>Registration Number: </p>
+                <p th:text="${user.getRegistrationNumber()}"></p>
+            </div>
+            <div th:if="${user.getQualification() != null}">
+                <p>Qualification: </p>
+                <p th:text="${user.getQualification()}"></p>
+            </div>
+            <div th:if="${user.getAddress() != null}">
+                <p>Address: </p>
+                <p th:text="${user.getAddress()}"></p>
+            </div>
+            <div th:if="${user.getEmail() != null}">
+                <p>Email: </p>
+                <p th:text="${user.getEmail()}"></p>
+            </div>
+            <div th:if="${user.getPhoneNumber() != null}">
+                <p>Mobile Number: </p>
+                <p th:text="${user.getPhoneNumber()}"></p>
+            </div>
+            <div th:if="${user.getOtherDetails() != null}">
+                <p th:text="${user.getOtherDetails()}"></p>
             </div>
         </div>
+        <div th:if="${prescription != null}">
+            <div th:if="${prescription.getCreatedAt() != null}">
+                <p>Created AT: </p>
+                <p th:text="${prescription.getCreatedAt()}"></p>
+            </div>
+            <div th:if="${prescription.getPatientName() != null}">
+                <p>Patient Name: </p>
+                <p th:text="${prescription.getPatientName()}"></p>
+            </div>
+            <div th:if="${prescription.getAge() != null}">
+                <p>Age: </p>
+                <p th:text="${prescription.getAge()}"></p>
+            </div>
+            <div th:if="${prescription.getGender() != null}">
+                <p>Gender: </p>
+                <p th:text="${prescription.getGender()}"></p>
+            </div>
+            <div th:if="${prescription.getHeight() != null && prescription.getHeightUnit() != null}">
+                <p>Height: </p>
+                <p>
+                    <span th:text="${prescription.getHeight()}"></span>
+                    <span th:text="${prescription.getHeightUnit()}"></span>
+                </p>
+            </div>
+            <div th:if="${prescription.getWeight() != null && prescription.getWeightUnit() != null}">
+                <p>Weight: </p>
+                <p>
+                    <span th:text="${prescription.getWeight()}"></span>
+                    <span th:text=" ${prescription.getWeightUnit()}"></span>
+                </p>
+            </div>
+            <div th:if="${prescription.getAddress() != null}">
+                <p>Address: </p>
+                <p th:text="${prescription.getAddress()}"></p>
+            </div>
+            <div th:if="${prescription.getDiagnosis() != null}">
+                <p>Diagnosis: </p>
+                <p th:text="${prescription.getDiagnosis()}"></p>
+            </div>
+            <div th:if="${prescription.getPatientComplains() != null}">
+                <p>Patient Complains: </p>
+                <p th:text="${prescription.getPatientComplains()}"></p>
+            </div>
+            <div th:if="${prescription.getClinicalFeatures() != null}">
+                <p>Clinical Features: </p>
+                <p th:text="${prescription.getClinicalFeatures()}"></p>
+            </div>
+            <div th:if="${prescription.getExamination() != null}">
+                <p>Examination: </p>
+                <p th:text="${prescription.getExamination()}"></p>
+            </div>
+            <div th:if="${prescription.getAdvice() != null}">
+                <p>Advice: </p>
+                <p th:text="${prescription.getAdvice()}"></p>
+            </div>
+            <div th:if="${prescription.getNotes() != null}">
+                <p>Note: </p>
+                <p th:text="${prescription.getNotes()}"></p>
+            </div>
+        </div>
+
+        <table th:if="${prescription != null && prescription.getDrugs().size() != 0}">
+            <thead>
+                <tr>
+                    <th>Drug Name</th>
+                    <th>Strength</th>
+                    <th>Dose</th>
+                    <th>Preparation</th>
+                    <th>Route</th>
+                    <th>Direction</th>
+                    <th>Frequency</th>
+                    <th>Duration</th>
+                    <th>Quantity</th>
+                    <th>Instructions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="drug : ${prescription.getDrugs()}">
+                    <td th:text="${drug.getDrugName()}"></td>
+                    <td>
+                        <span th:text="${drug.getStrength()}"></span>
+                        <span th:text="${drug.getDrugStrengthUnit()}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${drug.getDose()}"></span>
+                        <span th:text="${drug.getDoseUnit()}"></span>
+                    </td>
+                    <td th:text="${drug.getPreparation()}"></td>
+                    <td th:text="${drug.getRoute()}"></td>
+                    <td th:text="${drug.getDirection()}"></td>
+                    <td th:text="${drug.getFrequency()}"></td>
+                    <td>
+                        <span th:text="${drug.getDuration()}"></span>
+                        <span th:text="${drug.getDurationUnit()}"></span>
+                    </td>
+                    <td th:text="${drug.getTotalQuantity()}"></td>
+                    <td th:text="${drug.getOtherInstructions()}"></td>
+                </tr>
+            </tbody>
+        </table>
     </body>
 </html>
