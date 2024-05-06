@@ -15,6 +15,8 @@ public interface PrescriptionService {
 
     List<PrescriptionResponse> filterPrescription(Long userId, Date createdAt);
 
+    List<PrescriptionResponse> getPrescriptionBuPatient(Long userId, String patientName);
+
     SinglePrescriptionResponse getSinglePrescription(Long prescriptionId);
 
     void addPrescription(SinglePrescriptionRequest singlePrescriptionRequest, Long userId);

@@ -91,4 +91,17 @@ public class PrescriptionController {
         return ResponseEntity.status(200).body(prescriptionService.prescriptionAnalysis(startDate, endDate,
                 tokenValidationResult.getUserId()));
     }
+
+    @GetMapping("/patient")
+    public ResponseEntity<List<PrescriptionResponse>> getPrescriptionsByPatientName(@RequestHeader(name = "Authorization") String token,
+                                                                                    @RequestParam(name = "patientName") String patientName){
+        JwtTokenProvider.TokenValidationResult tokenValidationResult = JwtTokenProvider.validateToken(token);
+
+        if(!tokenValidationResult.isValid()){
+            return ResponseEntity.status(401).body(null);
+        }
+
+        return ResponseEntity.status(200).body(prescriptionService.getPrescriptionBuPatient(tokenValidationResult.getUserId(),
+                patientName));
+    }
 }
