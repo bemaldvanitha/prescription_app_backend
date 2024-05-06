@@ -175,7 +175,7 @@ public class PrescriptionServiceImpl implements PrescriptionService{
         User user = userRepository.findById(userId).orElse(null);
 
         if(user != null){
-            /*Prescription prescription = new Prescription();
+            Prescription prescription = new Prescription();
 
             Date dobDate = singlePrescriptionRequest.getDateOfBirth();
             LocalDate dob = dobDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -310,7 +310,7 @@ public class PrescriptionServiceImpl implements PrescriptionService{
                 drug.setDurationUnit(durationUnit);
 
                 drugRepository.save(drug);
-            });*/
+            });
 
             GeneratePdf.generatePrescriptionHtml(templateEngine, singlePrescriptionRequest, user, "/prescription");
 
