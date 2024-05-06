@@ -2,6 +2,7 @@ package com.bemal.prescription_app.Service;
 
 import com.bemal.prescription_app.Dto.*;
 import com.bemal.prescription_app.Entity.*;
+import com.bemal.prescription_app.Helper.FirebaseStorageUploader;
 import com.bemal.prescription_app.Helper.GeneratePdf;
 import com.bemal.prescription_app.Repository.*;
 import com.querydsl.core.Tuple;
@@ -313,6 +314,12 @@ public class PrescriptionServiceImpl implements PrescriptionService{
 
             GeneratePdf.generatePrescriptionHtml(templateEngine, singlePrescriptionRequest, user, "/prescription");
 
+            FirebaseStorageUploader.initializeFirebaseAdminSDK();
+            String downloadedUrl = FirebaseStorageUploader.uploadFileToStorage("D:\\prescription_app\\backend\\prescription_app\\generated\\html\\prescription.html",
+                    "prescriptions/prescriptions.html");
+
+            GeneratePdf.generatePdfFromHtml("D:\\prescription_app\\backend\\prescription_app\\generated\\html\\prescription.html",
+                    "D:\\prescription_app\\backend\\prescription_app\\generated\\pdf\\prescription.pdf");
         }
     }
 
