@@ -1,11 +1,9 @@
 package com.bemal.prescription_app.Service;
 
-import com.bemal.prescription_app.Dto.PrescriptionResponse;
-import com.bemal.prescription_app.Dto.SingleDrugResponse;
-import com.bemal.prescription_app.Dto.SinglePrescriptionRequest;
-import com.bemal.prescription_app.Dto.SinglePrescriptionResponse;
+import com.bemal.prescription_app.Dto.*;
 import com.bemal.prescription_app.Entity.*;
 import com.bemal.prescription_app.Repository.*;
+import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Service;
@@ -16,6 +14,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class PrescriptionServiceImpl implements PrescriptionService{
@@ -284,5 +283,24 @@ public class PrescriptionServiceImpl implements PrescriptionService{
                 drugRepository.save(drug);
             });
         }
+    }
+
+    @Override
+    public List<PrescriptionAnalyticResponse> prescriptionAnalysis(Date startingDate, Date endingDate, Long userId) {
+        List<PrescriptionAnalyticResponse> analyticResponseList = new ArrayList<PrescriptionAnalyticResponse>();
+        Random random = new Random();
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user != null) {
+            QPrescription prescription = QPrescription.prescription;
+            List<Tuple> prescriptionTuples = queryFactory.select(prescription.createdAt, prescription.count()).from(prescription)
+                    .where(prescription.createdAt.between(startingDate, endingDate).and(prescription.user.eq(user)))
+                    .groupBy(prescription.createdAt).fetch();
+
+            prescriptionTuples.forEach(tuple -> {
+                analyticResponseList.add(new PrescriptionAnalyticResponse(random.nextLong(), tuple.get(prescription.count()).intValue(), tuple.get(prescription.createdAt)));
+            });
+        }
+        return analyticResponseList;
     }
 }
