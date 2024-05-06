@@ -2,11 +2,13 @@ package com.bemal.prescription_app.Service;
 
 import com.bemal.prescription_app.Dto.*;
 import com.bemal.prescription_app.Entity.*;
+import com.bemal.prescription_app.Helper.GeneratePdf;
 import com.bemal.prescription_app.Repository.*;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -43,7 +45,9 @@ public class PrescriptionServiceImpl implements PrescriptionService{
 
     private final JPAQueryFactory queryFactory;
 
-    public PrescriptionServiceImpl(EntityManager entityManager, UserRepository userRepository, PrescriptionRepository prescriptionRepository, GenderRepository genderRepository, HeightUnitRepository heightUnitRepository, WeightUnitRepository weightUnitRepository, DrugStrengthUnitRepository drugStrengthUnitRepository, DoseUnitRepository doseUnitRepository, PreparationRepository preparationRepository, RouteRepository routeRepository, DirectionRepository directionRepository, FrequencyRepository frequencyRepository, DurationUnitRepository durationUnitRepository, DrugRepository drugRepository) {
+    private final TemplateEngine templateEngine;
+
+    public PrescriptionServiceImpl(EntityManager entityManager, UserRepository userRepository, PrescriptionRepository prescriptionRepository, GenderRepository genderRepository, HeightUnitRepository heightUnitRepository, WeightUnitRepository weightUnitRepository, DrugStrengthUnitRepository drugStrengthUnitRepository, DoseUnitRepository doseUnitRepository, PreparationRepository preparationRepository, RouteRepository routeRepository, DirectionRepository directionRepository, FrequencyRepository frequencyRepository, DurationUnitRepository durationUnitRepository, DrugRepository drugRepository, TemplateEngine templateEngine) {
         this.queryFactory = new JPAQueryFactory(entityManager);
         this.userRepository = userRepository;
         this.prescriptionRepository = prescriptionRepository;
@@ -58,6 +62,7 @@ public class PrescriptionServiceImpl implements PrescriptionService{
         this.frequencyRepository = frequencyRepository;
         this.durationUnitRepository = durationUnitRepository;
         this.drugRepository = drugRepository;
+        this.templateEngine = templateEngine;
     }
 
     @Override
@@ -169,7 +174,7 @@ public class PrescriptionServiceImpl implements PrescriptionService{
         User user = userRepository.findById(userId).orElse(null);
 
         if(user != null){
-            Prescription prescription = new Prescription();
+            /*Prescription prescription = new Prescription();
 
             Date dobDate = singlePrescriptionRequest.getDateOfBirth();
             LocalDate dob = dobDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -304,7 +309,10 @@ public class PrescriptionServiceImpl implements PrescriptionService{
                 drug.setDurationUnit(durationUnit);
 
                 drugRepository.save(drug);
-            });
+            });*/
+
+            GeneratePdf.generatePrescriptionHtml(templateEngine, singlePrescriptionRequest, user, "/prescription");
+
         }
     }
 
