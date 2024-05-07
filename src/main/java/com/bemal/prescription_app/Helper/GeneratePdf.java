@@ -15,8 +15,7 @@ import java.nio.file.Paths;
 public class GeneratePdf {
 
     public static void generatePrescriptionHtml(TemplateEngine templateEngine, SinglePrescriptionRequest prescription,
-                                                User user, String filePath){
-        String fileName = "prescription.html";
+                                                User user, String fileName){
         String path = "D:\\prescription_app\\backend\\prescription_app\\generated\\html\\";
 
         Context context = new Context();
@@ -54,15 +53,6 @@ public class GeneratePdf {
             try (FileOutputStream outputStream = new FileOutputStream(pdfFilePath)) {
                 renderer.createPDF(outputStream);
             }
-
-            File fileToDelete = new File(htmlFilePath);
-
-            if (fileToDelete.delete()) {
-                System.out.println("File deleted successfully.");
-            } else {
-                System.out.println("Failed to delete the file.");
-            }
-
             System.out.println("PDF generated successfully at: " + pdfFilePath);
         } catch (IOException e) {
             System.out.println("Error occurred while reading HTML file: " + e.getMessage());

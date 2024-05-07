@@ -11,6 +11,7 @@ import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
@@ -175,7 +176,7 @@ public class PrescriptionServiceImpl implements PrescriptionService{
         User user = userRepository.findById(userId).orElse(null);
 
         if(user != null){
-            Prescription prescription = new Prescription();
+            /*Prescription prescription = new Prescription();
 
             Date dobDate = singlePrescriptionRequest.getDateOfBirth();
             LocalDate dob = dobDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -310,16 +311,26 @@ public class PrescriptionServiceImpl implements PrescriptionService{
                 drug.setDurationUnit(durationUnit);
 
                 drugRepository.save(drug);
-            });
+            });*/
 
-            GeneratePdf.generatePrescriptionHtml(templateEngine, singlePrescriptionRequest, user, "/prescription");
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
+            Random random = new Random();
+            int randomNumber = random.nextInt(10000);
+
+            String randomFileName = timeStamp + "_" + randomNumber;
+            randomFileName = randomFileName.replace(":", "");
+
+            GeneratePdf.generatePrescriptionHtml(templateEngine, singlePrescriptionRequest, user, randomFileName + ".html");
 
             FirebaseStorageUploader.initializeFirebaseAdminSDK();
-            String downloadedUrl = FirebaseStorageUploader.uploadFileToStorage("D:\\prescription_app\\backend\\prescription_app\\generated\\html\\prescription.html",
-                    "prescriptions/prescriptions.html");
+            String downloadedUrl = FirebaseStorageUploader.uploadFileToStorage("D:\\prescription_app\\backend\\prescription_app\\generated\\html\\" + randomFileName + ".html",
+                    "prescriptions/" + randomFileName + ".html");
 
-            GeneratePdf.generatePdfFromHtml("D:\\prescription_app\\backend\\prescription_app\\generated\\html\\prescription.html",
-                    "D:\\prescription_app\\backend\\prescription_app\\generated\\pdf\\prescription.pdf");
+            System.out.println(downloadedUrl);
+
+            GeneratePdf.generatePdfFromHtml("D:\\prescription_app\\backend\\prescription_app\\generated\\html\\" + randomFileName + ".html",
+                    "D:\\prescription_app\\backend\\prescription_app\\generated\\pdf\\" + randomFileName + ".pdf");
         }
     }
 

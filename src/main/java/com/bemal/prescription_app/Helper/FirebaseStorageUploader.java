@@ -13,18 +13,22 @@ import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 public class FirebaseStorageUploader {
+    private static boolean isFirebaseInitialized = false;
     public static void initializeFirebaseAdminSDK() {
-        try {
-            FileInputStream serviceAccount = new FileInputStream("D:\\prescription_app\\backend\\prescription_app\\src\\main\\resources\\storeapp-f3d3b-firebase-adminsdk-jir2m-e9e687bf2f.json");
+        if (!isFirebaseInitialized) {
+            try {
+                FileInputStream serviceAccount = new FileInputStream("D:\\prescription_app\\backend\\prescription_app\\src\\main\\resources\\storeapp-f3d3b-firebase-adminsdk-jir2m-e9e687bf2f.json");
 
-            FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                    .setStorageBucket("storeapp-f3d3b.appspot.com")
-                    .build();
+                FirebaseOptions options = new FirebaseOptions.Builder()
+                        .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                        .setStorageBucket("storeapp-f3d3b.appspot.com")
+                        .build();
 
-            FirebaseApp.initializeApp(options);
-        } catch (Exception e) {
-            e.printStackTrace();
+                FirebaseApp.initializeApp(options);
+                isFirebaseInitialized = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
