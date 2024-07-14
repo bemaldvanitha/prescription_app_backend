@@ -172,11 +172,11 @@ public class PrescriptionServiceImpl implements PrescriptionService{
     }
 
     @Override
-    public void addPrescription(SinglePrescriptionRequest singlePrescriptionRequest, Long userId) {
+    public SavePrescriptionResponse addPrescription(SinglePrescriptionRequest singlePrescriptionRequest, Long userId) {
         User user = userRepository.findById(userId).orElse(null);
 
         if(user != null){
-            /*Prescription prescription = new Prescription();
+            Prescription prescription = new Prescription();
 
             Date dobDate = singlePrescriptionRequest.getDateOfBirth();
             LocalDate dob = dobDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -311,7 +311,7 @@ public class PrescriptionServiceImpl implements PrescriptionService{
                 drug.setDurationUnit(durationUnit);
 
                 drugRepository.save(drug);
-            });*/
+            });
 
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
@@ -331,7 +331,10 @@ public class PrescriptionServiceImpl implements PrescriptionService{
 
             GeneratePdf.generatePdfFromHtml("D:\\prescription_app\\backend\\prescription_app\\generated\\html\\" + randomFileName + ".html",
                     "D:\\prescription_app\\backend\\prescription_app\\generated\\pdf\\" + randomFileName + ".pdf");
+
+            return new SavePrescriptionResponse("Prescription saved successfully", downloadedUrl);
         }
+        return new SavePrescriptionResponse("Server error", "");
     }
 
     @Override

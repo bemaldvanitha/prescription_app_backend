@@ -10,7 +10,7 @@ import java.util.Date;
 
 public class JwtTokenProvider {
     private static final String SECRET_KEY = "Secret-Key-Test_new_One_Ssl-RSGJYN-2983-29jeu7dh-Yoo-rwtsbhY";
-    private static final long EXPIRATION_TIME = 3600 * 1000;
+    private static final long EXPIRATION_TIME = 5 * 24 * 3600 * 1000;
 
     public static String generateToken(String phoneNumber, Long userId) {
         Date now = new Date();

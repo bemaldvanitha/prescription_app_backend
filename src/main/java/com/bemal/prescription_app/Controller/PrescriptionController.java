@@ -74,8 +74,9 @@ public class PrescriptionController {
             return ResponseEntity.status(401).body(null);
         }
 
-        prescriptionService.addPrescription(prescriptionRequest, tokenValidationResult.getUserId());
-        return ResponseEntity.status(200).body(new SavePrescriptionResponse("Prescription saved successfully"));
+        SavePrescriptionResponse savePrescription =  prescriptionService.addPrescription(prescriptionRequest,
+                tokenValidationResult.getUserId());
+        return ResponseEntity.status(200).body(savePrescription);
     }
 
     @GetMapping("/analysis")
