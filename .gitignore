@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+
+/src/main/resources/storeapp-f3d3b-firebase-adminsdk-jir2m-e9e687bf2f.json
